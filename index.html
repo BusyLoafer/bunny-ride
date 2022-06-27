@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Bunny Ride</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root {
+      --header-height: 50px;
+    }
+
+    @font-face {
+      font-family: 'Potta One';
+      src: url('assets/fonts/qwerty.woff');
+    }
+
+    #font {
+      position: absolute;
+      font-family: 'Potta One';
+      visibility: hidden;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      padding: 0;
+      margin: 0;
+    }
+
+    .container {
+      width: 1280px;
+      height: 100%;
+      margin: 0 auto;
+      /* background-color: blanchedalmond; */
+      position: relative;
+    }
+
+    .header {
+      height: var(--header-height);
+      width: 100%;
+    }
+
+    .subContainer {
+      width: 680px;
+      margin: 0 auto;
+      height: 100%;
+    }
+
+    .gameContainer {
+      margin-top: 100px;
+      height: 640px;
+      width: 100%;
+      position: absolute;
+      display: flex;
+      justify-content: center;
+      top: 0;
+    }
+
+    @media (max-width: 1280px) and (min-width: 600px) {
+      .container {
+        width: 100%;
+      }
+
+      .subContainer {
+        width: 100%;
+        border: none;
+      }
+
+      .gameContainer {
+        margin-top: 0px;
+        /*margin-top: var(--header-height);*/
+        height: 100%;
+        /*calc(100% - var(--header-height));*/
+      }
+
+      .header {
+        height: 0px;
+      }
+    }
+
+    @media (max-width: 600px),
+    only screen and (hover: none) and (pointer: coarse) {
+      .container {
+        width: 100%;
+      }
+
+      .subContainer {
+        width: 100%;
+        border: none;
+      }
+
+      .gameContainer {
+        margin-top: 0px;
+        /*margin-top: var(--header-height);*/
+        height: 100%;
+        /*calc(100% - var(--header-height));*/
+      }
+
+      .header {
+        height: 0px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="font">O</div>
+  <div class="container">
+    <div class="gameContainer">
+      <div id="app" style="height: 100%;">
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
