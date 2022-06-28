@@ -24,16 +24,17 @@ export class Bunny {
   private jumpSpeed = 0;
   private fallSpeed = 10;
   private keyDown = false;
-  constructor(parent: Container) {
-
+  private loader: Loader;
+  constructor(parent: Container, loader?: Loader) {
+    this.loader = loader ? loader : Loader.shared;
     dragonBones.PixiFactory.factory.clear();
 
     const factory = dragonBones.PixiFactory.factory;
 
-    factory.parseDragonBonesData(Loader.shared.resources["assets/bunny/mi_bunny_ske.json"].data);
+    factory.parseDragonBonesData(this.loader.resources["assets/bunny/mi_bunny_ske.json"].data);
     factory.parseTextureAtlasData(
-      Loader.shared.resources["assets/bunny/mi_bunny_tex.json"].data,
-      Loader.shared.resources["assets/bunny/mi_bunny_tex.png"].texture
+      this.loader.resources["assets/bunny/mi_bunny_tex.json"].data,
+      this.loader.resources["assets/bunny/mi_bunny_tex.png"].texture
     );
     this.bunny = factory.buildArmatureDisplay("mi_bunny");
     this.bunny.animation.play(anims.landSlide);
@@ -49,6 +50,11 @@ export class Bunny {
     window.addEventListener("keyup", () => this.keyDown = false);
   }
 
+  showPreloader(): void {
+    this.bunny.position.set(0, 50);
+    this.bunny.animation.play(anims.flyIdle);
+  }
+
   onClick(): void {
     if (!this.keyDown) {
       this.keyDown = true;
@@ -60,20 +66,6 @@ export class Bunny {
     if (!this.keyDown && event.code === "Space") {
       this.keyDown = true;
       this.jump();
-    }
-  }
-
-
-  private jump(): void {
-    if (this.state === State.move) {
-      this.jumpSpeed = -30
-      this.state = State.fly
-      this.bunny.animation.play(anims.flyStart);
-      this.bunny.animation.fadeIn(anims.flyIdle, 0.2);
-    } else if (this.state === State.fly) {
-      this.state = State.fall
-      this.bunny.animation.play(anims.flyFallStart);
-      this.bunny.animation.fadeIn(anims.flyFallLoop, 0.1);
     }
   }
 
@@ -111,6 +103,19 @@ export class Bunny {
     this.bunny.animation.play(anims.slideLoop);
     this.jumpSpeed = 0;
     this.fallSpeed = 10;
+  }
+  
+  private jump(): void {
+    if (this.state === State.move) {
+      this.jumpSpeed = -30
+      this.state = State.fly
+      this.bunny.animation.play(anims.flyStart);
+      this.bunny.animation.fadeIn(anims.flyIdle, 0.2);
+    } else if (this.state === State.fly) {
+      this.state = State.fall
+      this.bunny.animation.play(anims.flyFallStart);
+      this.bunny.animation.fadeIn(anims.flyFallLoop, 0.1);
+    }
   }
 
   private move(velY: number) {

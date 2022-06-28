@@ -3,18 +3,12 @@ import { FinishPopup } from './app/scripts/classes/UI/Popups/FinishPopup';
 import { leaderPopup } from './app/scripts/classes/UI/Popups/LeaderPopup';
 import { startPopup } from './app/scripts/classes/UI/Popups/StartPopup';
 import { GUI } from './app/scripts/classes/UI/UI';
-import { allBtns, User } from './app/scripts/const/const';
-import { placeNames, placeValues } from './app/scripts/const/places';
-import { allIcons, popupNames, rays, SIZE, star } from './app/scripts/const/uiConst';
+import { User } from './app/scripts/const/const';
+import { popupNames, SIZE, } from './app/scripts/const/uiConst';
 import { Application, Container, Graphics, Loader, TilingSprite } from 'pixi.js';
 import { Bunny } from './app/scripts/classes/game/Bunny';
 import { Box } from './app/scripts/classes/game/Box';
-
-const imgPath = {
-	env: './assets/Environment/',
-	ui: './assets/UI/',
-	bunny: './assets/bunny/'
-}
+import { Preloader } from './app/scripts/Preloader';
 
 enum UIState {
 	none,
@@ -74,40 +68,6 @@ document.getElementById('app').appendChild(app.view);
 
 const loader = Loader.shared;
 
-// buttons
-allBtns.forEach(btnSetting => {
-	loader.add(btnSetting.imageNames.base, imgPath.ui + btnSetting.fileNames.base);
-	loader.add(btnSetting.imageNames.hover, imgPath.ui + btnSetting.fileNames.hover);
-	loader.add(btnSetting.imageNames.active, imgPath.ui + btnSetting.fileNames.active);
-});
-
-// Leaderboard
-placeNames.forEach(place => loader.add(place.imageName, imgPath.ui + place.fileName));
-placeValues.forEach(place => loader.add(place.imageName, imgPath.ui + place.fileName));
-
-// popup
-loader.add('popup', imgPath.ui + 'info_plate_big.png');
-loader.add('popupHeader', imgPath.ui + 'header_info_plate.png');
-loader.add('input', imgPath.ui + 'user_name_bar.png');
-
-// congratulation
-loader.add(star.imageName, imgPath.ui + star.fileName);
-loader.add(rays.imageName, imgPath.ui + rays.fileName);
-
-// icons
-allIcons.forEach(icon => loader.add(icon.imageName, imgPath.ui + icon.fileName));
-
-loader.add("back_rocks", imgPath.env + "back_rocks.png");
-
-loader.add("floor", imgPath.env + "floor.png");
-
-loader.add("box", imgPath.env + "stopper_idle.png");
-loader.add("crushBox", imgPath.env + "stopper_crush.png");
-
-loader.add(["assets/bunny/mi_bunny_ske.json", "assets/bunny/mi_bunny_tex.json", "assets/bunny/mi_bunny_tex.png"]);
-
-loader.load();
-
 const initScene = () => {
 
 	backRock = new TilingSprite(loader.resources["back_rocks"].texture, SIZE.w * 2, SIZE.h);
@@ -148,7 +108,7 @@ const initScene = () => {
 	app.ticker.add(gameLoop);
 }
 
-loader.onComplete.add(initScene);
+new Preloader(app.stage, initScene);
 
 const gameLoop = (delta: number): void => {
 	if (uiState === UIState.score) {
