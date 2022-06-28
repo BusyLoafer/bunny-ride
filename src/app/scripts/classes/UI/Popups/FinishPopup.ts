@@ -1,5 +1,5 @@
 import { Container, Loader, Sprite, Text } from "pixi.js";
-import { createBtn } from "../../../ButtonManager";
+import { createBtn } from "../../../managers/ButtonManager";
 import { btnOk } from "../../../const/const";
 import { translations } from "../../../const/lang";
 import { basePopup } from "./BasePopup";

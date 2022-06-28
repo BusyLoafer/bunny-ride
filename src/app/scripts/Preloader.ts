@@ -2,6 +2,7 @@ import { Container, Loader } from "pixi.js";
 import { Bunny } from "./classes/game/Bunny";
 // import { Bunny } from "./classes/game/Bunny";
 import { allBtns } from "./const/const";
+import { houseBlocks } from "./const/houses";
 import { placeNames, placeValues } from "./const/places";
 import { allIcons, rays, SIZE, star } from "./const/uiConst";
 
@@ -69,6 +70,7 @@ export class Preloader extends Container {
 
     loader.add("box", imgPath.env + "stopper_idle.png");
     loader.add("crushBox", imgPath.env + "stopper_crush.png");
+    loader.add(houseBlocks);
 
     loader.add(["assets/bunny/mi_bunny_ske.json", "assets/bunny/mi_bunny_tex.json", "assets/bunny/mi_bunny_tex.png"]);
  

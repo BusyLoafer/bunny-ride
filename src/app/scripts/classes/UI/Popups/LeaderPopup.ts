@@ -1,5 +1,5 @@
 import { Container, Loader, Sprite, Text, Texture } from "pixi.js";
-import { createBtn } from "../../../ButtonManager";
+import { createBtn } from "../../../managers/ButtonManager";
 import { btnArrow, btnOk } from "../../../const/const";
 import { translations } from "../../../const/lang";
 import { placeNames, placeValues } from "../../../const/places";

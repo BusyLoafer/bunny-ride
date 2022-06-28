@@ -1,5 +1,5 @@
 import { Container, Loader, Sprite, Text } from "pixi.js";
-import { createBtn, createChangingBtn } from "../../ButtonManager";
+import { createBtn, createChangingBtn } from "../../managers/ButtonManager";
 import { btnFullscreen, btnPause, btnSoundOff, btnSoundOn, User } from "../../const/const";
 import { SIZE } from "../../const/uiConst";
 

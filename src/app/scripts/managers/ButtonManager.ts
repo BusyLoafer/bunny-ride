@@ -1,6 +1,6 @@
 import { Loader } from "pixi.js";
-import { BtnTextureName, Button, Textures } from "./classes/UI/Buttons/Button";
-import { ChangingButton } from "./classes/UI/Buttons/ChangingButton";
+import { BtnTextureName, Button, Textures } from "../classes/UI/Buttons/Button";
+import { ChangingButton } from "../classes/UI/Buttons/ChangingButton";
 
 type Point = {
   x: number, y: number

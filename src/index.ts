@@ -9,6 +9,8 @@ import { Application, Container, Graphics, Loader, TilingSprite } from 'pixi.js'
 import { Bunny } from './app/scripts/classes/game/Bunny';
 import { Box } from './app/scripts/classes/game/Box';
 import { Preloader } from './app/scripts/Preloader';
+import { House } from './app/scripts/classes/game/House';
+import { houses } from './app/scripts/const/houses';
 
 enum UIState {
 	none,
@@ -51,16 +53,22 @@ let pauseBg = new Graphics();
 
 let backRock!: PIXI.TilingSprite;
 let floor!: PIXI.TilingSprite;
-let gameContainer = new Container();
-let boxContainer = new Container();
-let playerContainer = new Container();
-gameContainer.addChild(boxContainer, playerContainer)
+const gameContainer = new Container();
+const boxContainer = new Container();
+const playerContainer = new Container();
+const bgObjects = new Container();
+bgObjects.scale.set(0.5)
+bgObjects.position.y = 585;
+gameContainer.addChild(bgObjects, boxContainer, playerContainer)
 
 let currentDis = 0;
 let nextBox = 1000;
 let speed = 25;
 
+let nextHouse = 2500;
+
 const boxes: Box[] = [];
+const housesArr: House[] = [];
 
 let bunny: Bunny;
 
@@ -117,23 +125,42 @@ const gameLoop = (delta: number): void => {
 	switch (gameState) {
 		case GameState.play:
 			bunny.update(delta);
-			updateBG(delta);
-			updateBoxes(delta);
+			const distance = speed * delta;
+			currentDis += distance;
+			updateBG(delta, distance);
+			updateBoxes(distance);
+			updateBgObjects(distance);
 			break;
 	}
 
 }
 
-const updateBG = (delta: number) => {
-	const distance = speed * delta;
+const updateBG = (delta: number, distance: number) => {
 	backRock.tilePosition.x -= 1 * delta;
 	floor.tilePosition.x -= distance;
 }
 
-const updateBoxes = (delta: number) => {
-	const distance = speed * delta;
-	currentDis += distance;
+const updateBgObjects = (distance: number) => {
+	if (currentDis > nextHouse) {
+		const houseData = houses[Math.floor(Math.random() * houses.length)]
+		housesArr.push(new House(bgObjects, houseData, nextHouse + 200))
+		nextHouse += Math.floor(Math.random() * 1000) + 500;
+	}
 
+	for (let i = 0; i < housesArr.length; i++) {
+		if (housesArr[i]) {
+			const house = housesArr[i];
+			house.position.x -= distance;
+			if (house.position.x < -1000) {
+				house.destroy();
+				housesArr.shift();
+				i -= 1;
+			}
+		}
+	}
+}
+
+const updateBoxes = (distance: number) => {
 	if (currentDis > nextBox) {
 		nextBox += 5000;
 		boxes.forEach(box => box.destroy());
@@ -203,10 +230,14 @@ const switchOnFullscreen = () => {
 const reset = () => {
 	currentDis = 0;
 	nextBox = 1000;
+	nextHouse = 2500;
 	speed = 25;
 
 	boxes.forEach(box => box.destroy());
 	boxes.length = 0;
+
+	housesArr.forEach(house => house.destroy());
+	housesArr.length = 0;
 
 	uiState = UIState.none;
 	startWindow.visible = false;
